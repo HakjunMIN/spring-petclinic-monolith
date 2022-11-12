@@ -6,9 +6,6 @@ trigger:
   tags:
     include:
     - '*'
-  branches:  
-    include:
-    - '*'
 
 resources:
 - repo: self
