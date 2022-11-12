@@ -51,7 +51,7 @@ stages:
           maven
         path: $(MAVEN_CACHE_FOLDER) 
 
-    - task: Maven@3
+    - task: Maven@4
       displayName: Maven Build
       inputs:
         mavenPomFile: 'pom.xml'
