@@ -18,7 +18,7 @@ variables:
   # containerRegistry: '<your-registry>.azurecr.io'
 
   dockerRegistryServiceConnection: 'spreg'
-  imageRepository: 'petclinic/spring-petlicnic-monolith'
+  imageRepository: 'petclinic/spring-petclinic-monolith'
   containerRegistry: 'spreg.azurecr.io'
   dockerfilePath: '**/Dockerfile'
   tag: '$(Build.BuildId)'
@@ -52,7 +52,7 @@ stages:
         path: $(MAVEN_CACHE_FOLDER) 
 
     - task: Maven@4
-      displayName: Maven Build
+      displayName: Maven Build ans SonarQube Analysis
       inputs:
         mavenPomFile: 'pom.xml'
         publishJUnitResults: true
@@ -65,17 +65,9 @@ stages:
         mavenOptions: '$(MAVEN_OPTS)'
         mavenAuthenticateFeed: false
         effectivePomSkip: false
-        options: ''
-        goals: "-B verify"
- 
-    - task: Maven@3
-      displayName: Static Analysis on SonarQube
-      inputs:     
-        mavenPomFile: 'pom.xml'
-        mavenOptions: '$(MAVEN_OPTS)'
-        goals: "-B sonar:sonar"
         options: "-Dsonar.projectKey=petclinic-monolith -Dsonar.host.url=$(sonar-url) -Dsonar.login=$(sonar-token)"
-    
+        goals: "-B verify sonar:sonar"
+
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
