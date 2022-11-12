@@ -4,7 +4,7 @@
 # This chart inherits from our common library chart. You can check the default values/options here:
 # https://github.com/k8s-at-home/library-charts/tree/main/charts/stable/common/values.yaml
 
-replicas: 2
+replicas: 1
 image:
   repository: azurespringacr.azurecr.io/azurespring
   tag: 2.0-RC1 # will be overriden by CD Pipeline
