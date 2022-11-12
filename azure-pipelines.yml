@@ -78,7 +78,6 @@ stages:
     
     - task: Docker@2
       displayName: Build and push an image to container registry
-      condition: in(variables['build.sourceBranch'], 'RC', 'RELEASE', 'SNAPSHOT')
       inputs:
         command: buildAndPush
         repository: $(imageRepository)
@@ -88,17 +87,14 @@ stages:
           $(build.sourceBranchName)  
     
     - task: Bash@3    
-      condition: in(variables['build.sourceBranch'], 'RC', 'RELEASE', 'SNAPSHOT')
       inputs: 
         targetType: inline
         script: "sed -i 's/tag:.*/tag: $(build.sourceBranchName)/g' charts/*/values.yaml"
 
     - task: PublishPipelineArtifact@1
-      condition: in(variables['build.sourceBranch'], 'RC', 'RELEASE', 'SNAPSHOT')
       inputs:
         targetPath: 'charts'
         artifact: charts
 
     - upload: manifests
-      condition: in(variables['build.sourceBranch'], 'RC', 'RELEASE', 'SNAPSHOT')
       artifact: manifests    
