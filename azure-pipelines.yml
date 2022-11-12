@@ -81,15 +81,27 @@ stages:
     
     - task: Docker@2
       displayName: Build and push an image to container registry
-      condition: OR(contains(variables['build.sourceBranch'], 'RC'), contains(variables['build.sourceBranch'], 'RELEASE'), contains(variables['build.sourceBranch'], 'SNAPSHOT'))
+      condition: in(variables['build.sourceBranch'], 'RC', 'RELEASE', 'SNAPSHOT')
       inputs:
         command: buildAndPush
         repository: $(imageRepository)
         dockerfile: $(dockerfilePath)
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
-          $(build.sourceBranchName)  # 태그 
+          $(build.sourceBranchName)  
+    
+    - task: Bash@3    
+      condition: in(variables['build.sourceBranch'], 'RC', 'RELEASE', 'SNAPSHOT')
+      inputs: 
+        targetType: inline
+        script: "sed -i 's/tag:.*/tag: $(build.sourceBranchName)/g' charts/*/values.yaml"
+
+    - task: PublishPipelineArtifact@1
+      condition: in(variables['build.sourceBranch'], 'RC', 'RELEASE', 'SNAPSHOT')
+      inputs:
+        targetPath: 'charts'
+        artifact: charts
 
     - upload: manifests
-      condition: OR(contains(variables['build.sourceBranch'], 'RC'), contains(variables['build.sourceBranch'], 'RELEASE'))
-      artifact: manifests
+      condition: in(variables['build.sourceBranch'], 'RC', 'RELEASE', 'SNAPSHOT')
+      artifact: manifests    

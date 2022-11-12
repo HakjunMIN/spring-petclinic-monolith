@@ -279,7 +279,7 @@ condition: OR(contains(variables['build.sourceBranch'], 'RC'), contains(variable
 배포 Manifest의 통합관리와 롤백의 용이성을 위해 Helm Chart를 사용하여 배포 파이프라인을 구성함. 또한 Azure DevOps Board내에서 릴리즈 추적성을 유지하기 위해 yaml방식의 파이프라인을 [Release 파이프라인(Classic)](https://docs.microsoft.com/ko-kr/azure/devops/pipelines/release/?view=azure-devops)으로 변경하여 사용함.
 ### 이미지 배포
 
-버전 태깅으로 Continuous Deployment를 수행하기 위해 태깅으로 Docker이미지를 레지스트리에 배포함.
+버전 태깅으로 Continuous Deployment를 수행하기 위해 태깅으로 Docker이미지를 레지스트리에 배포함. (CI 파이프라인 yml에서 수행)
 
 ```yaml
     - task: Docker@2
@@ -303,7 +303,7 @@ bash 스크립트로 `values.yaml` 내 image tag값 변경
       condition: OR(contains(variables['build.sourceBranch'], 'RC'), contains(variables['build.sourceBranch'], 'RELEASE'))
       inputs: 
         targetType: inline
-        script: "sed -i 's/tag:.*/tag: $(build.sourceBranchName)/g' Application/charts/*/values.yaml"
+        script: "sed -i 's/tag:.*/tag: $(build.sourceBranchName)/g' charts/*/values.yaml"
 ```
 
 ### 차트 업로드
@@ -314,7 +314,7 @@ Release파이프라인에서 사용하기 위한 차트를 아티팩트로 업�
     - task: PublishPipelineArtifact@1
       condition: OR(contains(variables['build.sourceBranch'], 'RC'), contains(variables['build.sourceBranch'], 'RELEASE'))
       inputs:
-        targetPath: 'Application/charts'
+        targetPath: 'charts'
         artifact: charts
 ```
 
