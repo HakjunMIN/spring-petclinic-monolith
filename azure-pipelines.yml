@@ -77,18 +77,18 @@ stages:
         mavenPomFile: 'pom.xml'
         mavenOptions: '$(MAVEN_OPTS)'
         goals: "-B sonar:sonar"
-        options: "-Dsonar.projectKey=pet-monolith -Dsonar.host.url=$(sonar-url) -Dsonar.login=$(sonar-token)"
+        options: "-Dsonar.projectKey=petclinic-monolith -Dsonar.host.url=$(sonar-url) -Dsonar.login=$(sonar-token)"
     
     - task: Docker@2
       displayName: Build and push an image to container registry
-      condition: OR(contains(variables['build.sourceBranch'], 'RC'), contains(variables['build.sourceBranch'], 'RELEASE'))
+      condition: OR(contains(variables['build.sourceBranch'], 'RC'), contains(variables['build.sourceBranch'], 'RELEASE'), contains(variables['build.sourceBranch'], 'SNAPSHOT'))
       inputs:
         command: buildAndPush
         repository: $(imageRepository)
         dockerfile: $(dockerfilePath)
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
-          $(tag)
+          $(build.sourceBranchName)  # 태그 
 
     - upload: manifests
       condition: OR(contains(variables['build.sourceBranch'], 'RC'), contains(variables['build.sourceBranch'], 'RELEASE'))
