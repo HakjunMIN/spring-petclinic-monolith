@@ -35,7 +35,7 @@ Please Enter the port exposed in the application: 8080
 Please Enter the name of the application: petclinic-monolith█
 ```
 
-![CI](https://github.com/HakjunMIN/skr-sample/actions/workflows/devops-starter-workflow.yml/badge.svg) [![Build Status](https://dev.azure.com/andrewmin0240/azure-spring/_apis/build/status/azure-spring?branchName=feature%2Frefactor-app)](https://dev.azure.com/andrewmin0240/azure-spring/_build/latest?definitionId=6&branchName=feature%2Frefactor-app) [![Bugs](http://52.141.21.192:9000/api/project_badges/measure?project=azure-spring&metric=bugs&token=52b2322994d4e2e90ede6bb68d6d8584a3992bd7)](http://52.141.21.192:9000/dashboard?id=azure-spring) [![Coverage](http://52.141.21.192:9000/api/project_badges/measure?project=azure-spring&metric=coverage&token=52b2322994d4e2e90ede6bb68d6d8584a3992bd7)](http://52.141.21.192:9000/dashboard?id=azure-spring) [![Code Smells](http://52.141.21.192:9000/api/project_badges/measure?project=azure-spring&metric=code_smells&token=52b2322994d4e2e90ede6bb68d6d8584a3992bd7)](http://52.141.21.192:9000/dashboard?id=azure-spring) [![Vulnerabilities](http://52.141.21.192:9000/api/project_badges/measure?project=azure-spring&metric=vulnerabilities&token=52b2322994d4e2e90ede6bb68d6d8584a3992bd7)](http://52.141.21.192:9000/dashboard?id=azure-spring)
+[![Build Status](https://dev.azure.com/andrewmin0240/petclinic-monolith/_apis/build/status/petclinic-monolith?branchName=feature%2Frefactor-app)](https://dev.azure.com/andrewmin0240/petclinic-monolith/_build/latest?definitionId=6&branchName=feature%2Frefactor-app) [![Bugs](http://20.214.221.108:9000/api/project_badges/measure?project=petclinic-monolith&metric=bugs&token=52b2322994d4e2e90ede6bb68d6d8584a3992bd7)](http://20.214.221.108:9000/dashboard?id=petclinic-monolith) [![Coverage](http://20.214.221.108:9000/api/project_badges/measure?project=petclinic-monolith&metric=coverage&token=52b2322994d4e2e90ede6bb68d6d8584a3992bd7)](http://20.214.221.108:9000/dashboard?id=petclinic-monolith) [![Code Smells](http://20.214.221.108:9000/api/project_badges/measure?project=petclinic-monolith&metric=code_smells&token=52b2322994d4e2e90ede6bb68d6d8584a3992bd7)](http://20.214.221.108:9000/dashboard?id=petclinic-monolith) [![Vulnerabilities](http://20.214.221.108:9000/api/project_badges/measure?project=petclinic-monolith&metric=vulnerabilities&token=52b2322994d4e2e90ede6bb68d6d8584a3992bd7)](http://20.214.221.108:9000/dashboard?id=petclinic-monolith)
 
 ## 주요 목차
 
@@ -262,7 +262,7 @@ condition: OR(contains(variables['build.sourceBranch'], 'RC'), contains(variable
         mavenPomFile: 'Application/pom.xml'
         mavenOptions: '$(MAVEN_OPTS)'
         goals: "-B sonar:sonar"
-        options: "-Dsonar.projectKey=azure-spring -Dsonar.host.url=$(sonar-url) -Dsonar.login=$(sonar-token)"
+        options: "-Dsonar.projectKey=petclinic-monolith -Dsonar.host.url=$(sonar-url) -Dsonar.login=$(sonar-token)"
     
 ```
 
