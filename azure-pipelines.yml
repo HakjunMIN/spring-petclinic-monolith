@@ -52,7 +52,7 @@ stages:
         path: $(MAVEN_CACHE_FOLDER) 
 
     - task: Maven@4
-      displayName: Maven Build ans SonarQube Analysis
+      displayName: Maven Build and SonarQube Analysis
       inputs:
         mavenPomFile: 'pom.xml'
         publishJUnitResults: true
