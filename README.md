@@ -1,3 +1,6 @@
+
+[![Build Status](https://dev.azure.com/andrewmin0240/spring-msa-demo/_apis/build/status/spring-petclinic-monolith?branchName=main)](https://dev.azure.com/andrewmin0240/spring-msa-demo/_apis/build/status/spring-petclinic-monolith?branchName=main) [![Bugs](http://20.214.221.108:9000/api/project_badges/measure?project=petclinic-monolith&metric=bugs&token=sqp_ce8950fdd0fedd29a13f42115cb9e0aa44c03b10)](http://20.214.221.108:9000/dashboard?id=petclinic-monolith) [![Coverage](http://20.214.221.108:9000/api/project_badges/measure?project=petclinic-monolith&metric=coverage&token=sqp_ce8950fdd0fedd29a13f42115cb9e0aa44c03b10)](http://20.214.221.108:9000/dashboard?id=petclinic-monolith) [![Code Smells](http://20.214.221.108:9000/api/project_badges/measure?project=petclinic-monolith&metric=code_smells&token=sqp_ce8950fdd0fedd29a13f42115cb9e0aa44c03b10)](http://20.214.221.108:9000/dashboard?id=petclinic-monolith) [![Vulnerabilities](http://20.214.221.108:9000/api/project_badges/measure?project=petclinic-monolith&metric=vulnerabilities&token=sqp_ce8950fdd0fedd29a13f42115cb9e0aa44c03b10)](http://20.214.221.108:9000/dashboard?id=petclinic-monolith)
+
 # Azure DevOps
 
 ## Sign up
@@ -35,7 +38,6 @@ Please Enter the port exposed in the application: 8080
 Please Enter the name of the application: petclinic-monolith█
 ```
 
-[![Build Status](https://dev.azure.com/andrewmin0240/petclinic-monolith/_apis/build/status/petclinic-monolith?branchName=feature%2Frefactor-app)](https://dev.azure.com/andrewmin0240/petclinic-monolith/_build/latest?definitionId=6&branchName=feature%2Frefactor-app) [![Bugs](http://20.214.221.108:9000/api/project_badges/measure?project=petclinic-monolith&metric=bugs&token=52b2322994d4e2e90ede6bb68d6d8584a3992bd7)](http://20.214.221.108:9000/dashboard?id=petclinic-monolith) [![Coverage](http://20.214.221.108:9000/api/project_badges/measure?project=petclinic-monolith&metric=coverage&token=52b2322994d4e2e90ede6bb68d6d8584a3992bd7)](http://20.214.221.108:9000/dashboard?id=petclinic-monolith) [![Code Smells](http://20.214.221.108:9000/api/project_badges/measure?project=petclinic-monolith&metric=code_smells&token=52b2322994d4e2e90ede6bb68d6d8584a3992bd7)](http://20.214.221.108:9000/dashboard?id=petclinic-monolith) [![Vulnerabilities](http://20.214.221.108:9000/api/project_badges/measure?project=petclinic-monolith&metric=vulnerabilities&token=52b2322994d4e2e90ede6bb68d6d8584a3992bd7)](http://20.214.221.108:9000/dashboard?id=petclinic-monolith)
 
 ## 주요 목차
 
