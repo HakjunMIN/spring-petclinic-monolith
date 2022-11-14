@@ -349,7 +349,9 @@ Deploy와 Rollback을 별개의 Stage로 구성하고 Rollback은 필요시에�
 
 * Helm upgrade
 
-Cluster, Namespace, Command, Release Name, Vaule File등을 입력. Set Value 값은 values.yaml 파일의 특정 내용을 Override할 때 사용.
+  * Cluster, Namespace, Command, Release Name, Vaule File등을 입력. Set Value 값은 values.yaml 파일의 특정 내용을 Override할 때 사용.
+
+  * Image, Tag값 오버라이딩. Multi 값은 `,`로 구분 
 
 ![helm upgrade](img/helpup-1.png)
 ![helm upgrade](img/helpup-2.png)
