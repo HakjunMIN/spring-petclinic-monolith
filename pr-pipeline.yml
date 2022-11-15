@@ -1,0 +1,59 @@
+
+trigger:
+  branch:
+    include:
+    - '*'
+  paths:
+    exclude:
+    - '*.md'
+    - 'img/*'
+
+resources:
+- repo: self
+
+variables:
+  tag: '$(Build.BuildId)'
+  # Maven Caching
+  MAVEN_CACHE_FOLDER: $(Pipeline.Workspace)/.m2/repository
+  MAVEN_OPTS: '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
+  sonar-url: 'http://20.214.221.108:9000'
+  sonar-token: 'sqp_ce8950fdd0fedd29a13f42115cb9e0aa44c03b10'
+
+
+stages:
+- stage: Build
+  displayName: Build stage
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: $(vmImageName)
+      
+    steps:
+    - task: Cache@2
+      displayName: Cache Maven local repo  
+      inputs:
+        key: 'maven | "$(Agent.OS)" | **/pom.xml'
+        restoreKeys: |
+          maven | "$(Agent.OS)"
+          maven
+        path: $(MAVEN_CACHE_FOLDER) 
+
+    - task: Maven@4
+      displayName: Maven Build and SonarQube Analysis
+      inputs:
+        mavenPomFile: 'pom.xml'
+        publishJUnitResults: true
+        codeCoverageTool: 'jacoco'
+        codeCoverageClassFilesDirectories:  'target/classes, target/testClasses'
+        codeCoverageSourceDirectories: 'src/java, src/test'
+        javaHomeOption: 'JDKVersion'
+        jdkVersionOption: 1.11
+        mavenVersionOption: 'Default'
+        mavenOptions: '$(MAVEN_OPTS)'
+        mavenAuthenticateFeed: false
+        effectivePomSkip: false
+        options: "-Dsonar.projectKey=petclinic-monolith -Dsonar.host.url=$(sonar-url) -Dsonar.login=$(sonar-token)"
+        goals: "-B verify sonar:sonar"
