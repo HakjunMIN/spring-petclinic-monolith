@@ -39,18 +39,6 @@ Please Enter the port exposed in the application: 8080
 
 Please Enter the name of the application: petclinic-monolith█
 ```
-
-## 주요 목차
-
-1. [Quick start with DevOps Starter](#devops-starter로-원클릭-구성)
-2. [Hand-on 개요](#hands-on-개요)
-3. [Azure DevOps 구성](#azure-devops-조직-구성)
-4. [필요환경 구성](#git-설정)
-5. [목표 CI/CD 파이프라인 전략](#cicd-pipelineing을-위한-git-branch-전략)
-6. [Azure Pipeline](#azure-pipeline-구성)
-7. [GitHub Action](#github-action)
-8. [참고자료](#참고자료)
----
 ## Quick Start with DevOps Starter
 
 * 참고문서: <https://docs.microsoft.com/ko-kr/azure/devops-project/overview>
@@ -330,8 +318,11 @@ Deploy와 Rollback을 별개의 Stage로 구성하고 Rollback은 필요시에�
 ![helm upgrade](img/helpup-1.png)
 ![helm upgrade](img/helpup-2.png)
 
-* kubectl rollout
-  * pod를 rollout 방식으로 반영. (helm 의 recreate pod 기능이 deprecate됨).
+* kubectl rollout (선택)
+  * pod를 rollout 방식으로 반영. (helm 의 recreate pod 기능이 deprecate됨). 
+  
+  > [!Note]
+  > `Deployment`의 Strategy를 `Recreate`나 `RollingUpdate`에서 선택
 
 ![rollout](img/kube-rollout.png)
 
@@ -349,7 +340,7 @@ Deploy와 Rollback을 별개의 Stage로 구성하고 Rollback은 필요시에�
 
 * 동일한 App이름으로 Canary용 `Deployment`생성 (Chart내 template). 초기에는 `replicas`를 0으로 설정하여 배포되지 않게 함.
 
-  * 아 파일 참고: [`canary-deployment`](charts/petclinic/templates/canary-deployment.yaml)
+  * 이 파일 참고: [`canary-deployment`](charts/petclinic/templates/canary-deployment.yaml)
 
 * 카나리 `Deployment`의 이미지를 신규버전으로 설정
   

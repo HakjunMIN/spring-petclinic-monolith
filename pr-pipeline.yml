@@ -1,11 +1,11 @@
-trigger:
-  branches:
-    include:
-    - '*'
-  paths:
-    exclude:
-    - '*.md'
-    - 'img/*'
+trigger: none
+  # branches:
+  #   include:
+  #   - '*'
+  # paths:
+  #   exclude:
+  #   - '*.md'
+  #   - 'img/*'
 
 resources:
 - repo: self
