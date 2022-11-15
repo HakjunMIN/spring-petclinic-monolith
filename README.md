@@ -281,6 +281,10 @@ Release파이프라인에서 사용하기 위한 차트를 아티팩트로 업�
         artifact: charts
 ```
 
+#### 전체 [`azure-pipeline`](azure-pipelines.yml) 샘플 참고
+
+
+
 
 ### CD (Deploy) 부문
 
@@ -324,10 +328,10 @@ Deploy와 Rollback을 별개의 Stage로 구성하고 Rollback은 필요시에�
   * Image, Tag값 오버라이딩. Multi 값은 `,`로 구분
 
 ![helm upgrade](img/helpup-1.png)
-<!-- ![helm upgrade](img/helpup-2.png) -->
+![helm upgrade](img/helpup-2.png)
 
 * kubectl rollout
-pod를 rollout 방식으로 반영. (helm 의 recreate pod 기능이 deprecate됨)
+  * pod를 rollout 방식으로 반영. (helm 의 recreate pod 기능이 deprecate됨).
 
 ![rollout](img/kube-rollout.png)
 
@@ -338,11 +342,7 @@ pod를 rollout 방식으로 반영. (helm 의 recreate pod 기능이 deprecate�
 ![rollback](img/helm-rollback.png)
 
 * Helm rollback
-
-Command는 `rollback`, Argument는 `릴리즈명 0` 으로 입력. `0`은 바로 이전 Chart revision을 의미함.
-
-
-
+  * Command는 `rollback`, Argument는 `릴리즈명 0` 으로 입력. `0`은 바로 이전 Chart revision을 의미함.
 
 ### 파이프라인 테스트
 
@@ -363,20 +363,9 @@ git tag 0.0.1-RC1
 git push --tags
 ```
 
-#### 전체 [`azure-pipeline`](azure-pipelines.yml) 샘플 참고
-
----
-
-
 ## CI/CD 뱃지 생성
 
-* 뱃지를 통해 현재 리파지토리의 CI/CD, 정적점검, 테스트 커버리지 등을 확인할 수 있음. 
-  
-> 본 페이지 맨 위 쪽 샘플) 프로젝트의 뱃지를 참고할 것. 이 프로젝트의 뱃지가 아닌 다른 샘플 프로젝트의 뱃지임.
-
-### **모든 Hands-on이 완료되면 사용하지 않는 리소스는 정리**
-
-## 참고자료
+* 뱃지를 통해 현재 리파지토리의 CI/CD, 정적점검, 테스트 커버리지 등을 확인할 수 있음.
 
 ### Azure Pipeline 참고자료
 
