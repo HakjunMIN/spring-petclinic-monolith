@@ -349,7 +349,7 @@ Deploy와 Rollback을 별개의 Stage로 구성하고 Rollback은 필요시에�
 
 * 동일한 App이름으로 Canary용 `Deployment`생성 (Chart내 template). 초기에는 `replicas`를 0으로 설정하여 배포되지 않게 함.
 
-[`canary-deployment`](charts/petclinic/templates/canary-deployment.yaml)
+  * 아 파일 참고: [`canary-deployment`](charts/petclinic/templates/canary-deployment.yaml)
 
 * 카나리 `Deployment`의 이미지를 신규버전으로 설정
   
@@ -363,13 +363,15 @@ kubectl set image deployment/monolith-release-sampleapp-canary monolith-release-
 kubectl scale deployment/monolith-release-sampleapp-canary --replicas=1
 ```
 
-* 성공하면 helm upgrade수행, 실피하면 리플리카를 0으로 설정
+* 성공하면 후속 스테이지인 `helm upgrade`수행, 실패하면 리플리카를 아래와 같이 0으로 설정하여 카나리 제거
 
 ```sh
 kubectl scale deployment/monolith-release-sampleapp-canary --replicas=0
 ```
 
-* 위 순서대로 Stage배포 앞단에 추가하여 Canary 배포를 수행할 수 있음.
+* 위 순서대로 Azure Release의 Stage배포 앞단에 추가하여 Canary 배포를 수행할 수 있음.
+  
+![canary](img/canary-pipeline.png)
 
 ### 파이프라인 테스트
 
