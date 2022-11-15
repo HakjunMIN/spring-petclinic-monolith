@@ -68,23 +68,17 @@ Please Enter the name of the application: petclinic-monolith█
 
 * Code리파지토리, Kubernetes 클러스터, 컨테이너 레지스트리, CI/CD 파이프라인, 애플리케이션 인사이트 (APM), 샘플코드 까지 자동으로 한 번에 생성됨.
 
-1. DevOps Starter for Azure DevOps
+*. DevOps Starter for Azure DevOps
 ![Azure DevOps](img/wholeset-devopsstarter.png)
-
-2. DevOps Starter for GitHub Action
-![GitHub Action](img/wholeset-devopsstarter2.png)
 
 ## Hands-on 개요
 
 * 단일 Spring Boot Project, [Springs Petclinic](https://github.com/spring-projects/spring-petclinic)로 Azure의 기본적인 리소스를 사용하며 Azure DevOps를 이용한 프로덕션에 필요한 기본적인 CI/CD pipelining을 구성함.
 
-> [!Note]
-> Spring Microservice는 [README](README.md)참고
-
 ### 특징
 
-* Pipeline 파일은 코드로 관리
-* 별도의 GitOps Tool없이 GitOps환경 구성
+* Pipeline 파일은 코드로 관리, Release환경은 Classic버전 사용.
+* 별도의 GitOps Tool없이 Git Tagging으로 GitOps환경 구성
 * CI와 CD 스테이지를 분리하고 승인 과정 생성 
 * 정적 분석 및 수집 도구를 이용하여 테스트 결과 및 정적점검 현황 확인 (선택)
 
@@ -116,8 +110,8 @@ Please Enter the name of the application: petclinic-monolith█
 2. CI파이프라인 강화
     * SonarQube로 테스트 결과, 정적점검 결과 수집
 3. CD파이프라인 강화
-   * 개발계, 테스트계, 운영계 파아프라인 구성
-   * 단계 별 승인과정 추가
+   * 개발계, 스테이지 파아프라인 구성
+   * 스테이지계 배포는 승인과정 추가
 
 ## Azure DevOps 조직 구성
 
@@ -146,8 +140,6 @@ Please Enter the name of the application: petclinic-monolith█
 
 !["CI/CD"](img/goal-pipeline.png)
 
-> 실제 파이프라인 구성 시 CI파이프라인과 CD파이프라인은 분리하여 구성하는 것이 권장됨.
-
 ### 초기 파이프라인 생성 자동화
 
 * Azure DevOps - Pipelines - `Create Pipeline` - `Azure Repos Git` - <repository선택>
@@ -160,14 +152,11 @@ Please Enter the name of the application: petclinic-monolith█
 
 ### Trigger 부문 수정
 
-* CI/CD 파이프라인을 1개의 코드로 관리. 코드로 분기하여 사용. 코드가 commit되면 무조건 실행 (CI/CD 포함)되도록 `trigger`부분을 아래와 같이 변경함.
+* CI/CD 파이프라인을 1개의 코드로 관리. 코드로 분기하여 사용. Tag가 Push되면 실행 (CI/CD 포함)되도록 `trigger`부분을 아래와 같이 변경함.
 
 ```yaml
 trigger:
   tags:
-    include:
-      - '*'
-  branches:  
     include:
       - '*'
 ```
@@ -199,11 +188,11 @@ variables:
     - task: Maven@3
       displayName: Maven Build
       inputs:
-        mavenPomFile: 'Application/pom.xml'
+        mavenPomFile: 'pom.xml'
         publishJUnitResults: true
         codeCoverageTool: 'jacoco'
-        codeCoverageClassFilesDirectories:  'Application/target/classes, Application/target/testClasses'
-        codeCoverageSourceDirectories: 'Application/src/java, Application/src/test'
+        codeCoverageClassFilesDirectories:  'target/classes, target/testClasses'
+        codeCoverageSourceDirectories: 'src/java, src/test'
         javaHomeOption: 'JDKVersion'
         jdkVersionOption: 1.11
         mavenVersionOption: 'Default'
@@ -211,7 +200,7 @@ variables:
         mavenAuthenticateFeed: false
         effectivePomSkip: false
         options: ''
-        goals: "-B verify"
+        goals: "-B package"
 ```
 
 * Docker 빌드 배포 Task와 upload manifests Task, Deploy Stage는 `RC`, `RELEASE` Tagging시에만 작동하도록 아래의 조건 추가
@@ -241,12 +230,13 @@ condition: OR(contains(variables['build.sourceBranch'], 'RC'), contains(variable
     helm repo add sonarqube https://SonarSource.github.io/helm-chart-sonarqube
     helm upgrade --install -n sonarqube sonarqube sonarqube/sonarqube --set service.type=LoadBalancer
 ```
+
 > 상용버전의 [SonarCloud](https://sonarcloud.io/) 사용시 AzurePipeline의 SonarQube용 Task(Run Code Analysis)를 사용할 수 있으나 OSS버전의 SonarQube사용 시 멀티 브랜치 분석을 할 수 없으므로 Maven의 Goal로 실행.
 
 * SonarQube설치가 완료되면 `sonar-url`과 `sonar-token`을 KeyVault에 secret으로 생성.
   * sonar token은 메뉴 Administration - Security - Adminstrator admin - Token에서 생성
   
-  ![sonarqube toeken](img/sonar-token.png)
+  ![sonarqube token](img/sonar-token.png)
 
 ```bash
     az keyvault secret set --vault-name <your-keyvault> --name sonar-url --value "http://<sonar-host>:9000"
@@ -256,12 +246,13 @@ condition: OR(contains(variables['build.sourceBranch'], 'RC'), contains(variable
 
 * SonarQube는 `mvn sonar:sonar` 형태로 Maven Goal로 실행.
 * `options`에 프로젝트키, SonarQube URL, Token등을 입력 (아래 yaml)
+* 위 빌드 Task와 병합할 것.
   
 ```yaml
     - task: Maven@3
       displayName: Static Analysis on SonarQube
       inputs:     
-        mavenPomFile: 'Application/pom.xml'
+        mavenPomFile: 'pom.xml'
         mavenOptions: '$(MAVEN_OPTS)'
         goals: "-B sonar:sonar"
         options: "-Dsonar.projectKey=petclinic-monolith -Dsonar.host.url=$(sonar-url) -Dsonar.login=$(sonar-token)"
@@ -270,15 +261,15 @@ condition: OR(contains(variables['build.sourceBranch'], 'RC'), contains(variable
 
 ### CD (Deploy) 부문
 
->[!Note]
+> [!Note]
 > Pipeline을 이용하여 Release를 구성할 경우 이 [문서](https://github.com/HakjunMIN/azure-petclinic/#cd-deploy-%EB%B6%80%EB%AC%B8)를 참고함
 
 > [!IMPORTANT]
 > 본 프로젝트는 Helm Library Chart를 사용함.
 > [이 문서](https://github.com/HakjunMIN/azure-petclinic/blob/main/helm-library-guide.md)를 참고할 것.
 
+* 배포 Manifest의 통합관리와 롤백의 용이성을 위해 Helm Chart를 사용하여 배포 파이프라인을 구성함. 또한 Azure DevOps Board내에서 릴리즈 추적성을 유지하기 위해 yaml방식의 파이프라인을 [Release 파이프라인(Classic)](https://docs.microsoft.com/ko-kr/azure/devops/pipelines/release/?view=azure-devops)을 사용함.
 
-배포 Manifest의 통합관리와 롤백의 용이성을 위해 Helm Chart를 사용하여 배포 파이프라인을 구성함. 또한 Azure DevOps Board내에서 릴리즈 추적성을 유지하기 위해 yaml방식의 파이프라인을 [Release 파이프라인(Classic)](https://docs.microsoft.com/ko-kr/azure/devops/pipelines/release/?view=azure-devops)으로 변경하여 사용함.
 ### 이미지 배포
 
 버전 태깅으로 Continuous Deployment를 수행하기 위해 태깅으로 Docker이미지를 레지스트리에 배포함. (CI 파이프라인 yml에서 수행)
@@ -286,7 +277,6 @@ condition: OR(contains(variables['build.sourceBranch'], 'RC'), contains(variable
 ```yaml
     - task: Docker@2
       displayName: Build and push an image to container registry
-      condition: OR(contains(variables['build.sourceBranch'], 'RC'), contains(variables['build.sourceBranch'], 'RELEASE')) # 태그사용시에만 Trigger
       inputs:
         command: buildAndPush
         repository: $(imageRepository)
@@ -302,10 +292,9 @@ bash 스크립트로 `values.yaml` 내 image tag값 변경
 
 ```yaml
     - task: Bash@3
-      condition: OR(contains(variables['build.sourceBranch'], 'RC'), contains(variables['build.sourceBranch'], 'RELEASE'))
       inputs: 
         targetType: inline
-        script: "sed -i 's/tag:.*/tag: $(build.sourceBranchName)/g' charts/*/values.yaml"
+        script: "sed -i 's/tag:.*/tag: $(build.sourceBranchName)/g' charts/*/values*.yaml"
 ```
 
 ### 차트 업로드
@@ -314,7 +303,6 @@ Release파이프라인에서 사용하기 위한 차트를 아티팩트로 업�
 
 ```yaml
     - task: PublishPipelineArtifact@1
-      condition: OR(contains(variables['build.sourceBranch'], 'RC'), contains(variables['build.sourceBranch'], 'RELEASE'))
       inputs:
         targetPath: 'charts'
         artifact: charts
@@ -333,7 +321,7 @@ Deploy와 Rollback을 별개의 Stage로 구성하고 Rollback은 필요시에�
 ![artifacts](img/release-artifacts.png)
 
 * `Default version`을 `Latest from the build default branch with tags`로 변경
-* Tags에 특정 태그에 의해서만 Triggering되도록 `*RC*`, `*RELEASE*`를 입력.
+* Tags에 특정 태그에 의해서만 Triggering되도록 `*RC*`, `*RELEASE*`, `SNAPSHOT`를 입력.
 
 * `Continuous Deployment Trigger`를 enabled해야함.
 
@@ -351,7 +339,7 @@ Deploy와 Rollback을 별개의 Stage로 구성하고 Rollback은 필요시에�
 
   * Cluster, Namespace, Command, Release Name, Vaule File등을 입력. Set Value 값은 values.yaml 파일의 특정 내용을 Override할 때 사용.
 
-  * Image, Tag값 오버라이딩. Multi 값은 `,`로 구분 
+  * Image, Tag값 오버라이딩. Multi 값은 `,`로 구분
 
 ![helm upgrade](img/helpup-1.png)
 ![helm upgrade](img/helpup-2.png)
