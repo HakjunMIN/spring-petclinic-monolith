@@ -1,5 +1,5 @@
 trigger:
-  branch:
+  branches:
     include:
     - '*'
   paths:

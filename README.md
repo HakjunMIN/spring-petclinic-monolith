@@ -337,7 +337,7 @@ Deploy와 Rollback을 별개의 Stage로 구성하고 Rollback은 필요시에�
 
 ### Rollback Stage
 
-* Rollback Task는 아래와 같이 이루어짐
+* Rollback Task는 아래와 같이 이루어짐, Rollback은 Manual로만 수행되도록 설정하고 Approve도 함께 설정.
 
 ![rollback](img/helm-rollback.png)
 
@@ -360,7 +360,7 @@ git push
 #코드 변경 후 
 git commit -am "change something"
 git tag 0.0.1-RC1
-git push --tags
+git push origin 0.0.1-RC1
 ```
 
 ## CI/CD 뱃지 생성
