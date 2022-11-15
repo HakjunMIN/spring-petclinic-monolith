@@ -344,6 +344,33 @@ Deploy와 Rollback을 별개의 Stage로 구성하고 Rollback은 필요시에�
 * Helm rollback
   * Command는 `rollback`, Argument는 `릴리즈명 0` 으로 입력. `0`은 바로 이전 Chart revision을 의미함.
 
+
+### 카나리 배포 (선택)
+
+* 동일한 App이름으로 Canary용 `Deployment`생성 (Chart내 template). 초기에는 `replicas`를 0으로 설정하여 배포되지 않게 함.
+
+[`canary-deployment`](charts/petclinic/templates/canary-deployment.yaml)
+
+* 카나리 `Deployment`의 이미지를 신규버전으로 설정
+  
+```sh
+kubectl set image deployment/monolith-release-sampleapp-canary monolith-release-sampleapp=spreg.azurecr.io/petclinic/spring-petclinic-monolith:0.0.5-SNAPSHOT
+```
+
+* 카나리 리플리카를 1개 생성
+
+```sh
+kubectl scale deployment/monolith-release-sampleapp-canary --replicas=1
+```
+
+* 성공하면 helm upgrade수행, 실피하면 리플리카를 0으로 설정
+
+```sh
+kubectl scale deployment/monolith-release-sampleapp-canary --replicas=0
+```
+
+* 위 순서대로 Stage배포 앞단에 추가하여 Canary 배포를 수행할 수 있음.
+
 ### 파이프라인 테스트
 
 #### CI 테스트

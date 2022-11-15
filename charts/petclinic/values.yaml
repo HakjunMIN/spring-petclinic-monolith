@@ -6,7 +6,7 @@
 
 replicas: 1
 image:
-  repository: azurespringacr.azurecr.io/azurespring
+  repository: spreg.azurecr.io/petclinic/spring-petclinic-monolith
   tag: 2.0-RC1 # will be overriden by CD Pipeline
   pullPolicy: Always
 
