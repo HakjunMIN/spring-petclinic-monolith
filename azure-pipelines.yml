@@ -38,8 +38,7 @@ stages:
   jobs:
   - job: Build
     displayName: Build
-    pool:
-      vmImage: $(vmImageName)
+    pool: 'Default'
       
     steps:
     - task: Cache@2
