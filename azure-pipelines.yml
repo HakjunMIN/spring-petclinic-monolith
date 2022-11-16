@@ -38,8 +38,11 @@ stages:
   jobs:
   - job: Build
     displayName: Build
-    pool: 'Default'
-      
+    pool:
+      name: Default
+      demand:
+        - Agent.Name -equals pipelinevm
+
     steps:
     - task: Cache@2
       displayName: Cache Maven local repo  
