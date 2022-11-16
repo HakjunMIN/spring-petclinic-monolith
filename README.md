@@ -31,14 +31,15 @@ We found deployment files in the directory, would you like to create new deploym
     no
 
 Select k8s Deployment Type: 
-    helm
+  ▸ helm
     kustomize
-  ▸ manifests
+    manifests
 
 Please Enter the port exposed in the application: 8080
 
 Please Enter the name of the application: petclinic-monolith█
 ```
+
 ## Quick Start with DevOps Starter
 
 * 참고문서: <https://docs.microsoft.com/ko-kr/azure/devops-project/overview>
@@ -66,10 +67,11 @@ Please Enter the name of the application: petclinic-monolith█
 
 ### 특징
 
-* Pipeline 파일은 코드로 관리, Release환경은 Classic버전 사용.
+* Pipeline 파일은 코드로 관리, Release환경은 Classic버전 사용. Azure DevOps에서 Board에 명시된 스토리와 추적성 확보
 * 별도의 GitOps Tool없이 Git Tagging으로 GitOps환경 구성
 * CI와 CD를 분리하고 승인 과정 생성
-* 정적 분석 및 수집 도구를 이용하여 테스트 결과 및 정적점검 현황 확인(선택)
+* 카나리 배포를 통해 선 검증, 후 Rolling Update수행 
+* 정적 분석 및 수집 도구를 이용하여 테스트 결과 및 정적점검 현황 확인
 
 ## 필요 도구
 
@@ -270,9 +272,6 @@ Release파이프라인에서 사용하기 위한 차트를 아티팩트로 업�
 ```
 
 #### 전체 [`azure-pipeline`](azure-pipelines.yml) 샘플 참고
-
-
-
 
 ### CD (Deploy) 부문
 
