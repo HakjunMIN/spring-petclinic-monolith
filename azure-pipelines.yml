@@ -38,7 +38,8 @@ stages:
   jobs:
   - job: Build
     displayName: Build
-    pool: azurevm
+    pool:
+      vmImage: $(vmImageName)
       
     steps:
     - task: Cache@2
