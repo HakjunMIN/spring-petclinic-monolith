@@ -330,10 +330,10 @@ Deploy와 Rollback을 별개의 Stage로 구성하고 Rollback은 필요시에�
 ![helm upgrade](img/helpup-2.png)
 
 * kubectl rollout (선택)
-  * pod를 rollout 방식으로 반영. (helm 의 recreate pod 기능이 deprecate됨). 
+  * pod를 Recreate 방식으로 반영. (helm 의 recreate pod 기능이 deprecate됨).
   
   > [!Note]
-  > `Deployment`의 Strategy를 `Recreate`나 `RollingUpdate`에서 선택
+  > `Deployment`의 Strategy를 `Recreate`나 `RollingUpdate`에서 선택, Default는 `RollingUpdate`
 
 ![rollout](img/kube-rollout.png)
 
