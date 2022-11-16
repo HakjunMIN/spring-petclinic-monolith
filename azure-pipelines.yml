@@ -2,10 +2,10 @@
 # Build and push image to Azure Container Registry; Deploy to Azure Kubernetes Service
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
-trigger:
-  tags:
-    include:
-    - '*'
+# trigger:
+#   tags:
+#     include:
+#     - '*'
 
 resources:
 - repo: self
@@ -39,10 +39,8 @@ stages:
   - job: Build
     displayName: Build
     pool:
-      name: Default
-      demand:
-        - Agent.Name -equals pipelinevm
-
+      vmImage: $(vmImageName)
+      
     steps:
     - task: Cache@2
       displayName: Cache Maven local repo  
