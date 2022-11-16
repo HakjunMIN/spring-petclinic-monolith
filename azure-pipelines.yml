@@ -47,7 +47,7 @@ stages:
       inputs:
         key: 'maven | "$(Agent.OS)" | pom.xml'
         restoreKeys: |
-          maven | "$(Agent.OS)"
+          maven | "$(Agent.OS)" | pom.xml
           maven
         path: $(MAVEN_CACHE_FOLDER) 
 

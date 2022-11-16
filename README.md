@@ -8,11 +8,14 @@
 * https://aex.dev.azure.com/signup
 * 조직 및 프로젝트 생성 후 아래 폼 제출 (무료 Pipeline Node신청)
   * https://aka.ms/azpipelines-parallelism-request
+
 ## 대상 앱
 
 `spring-petclinic-monolith`
 
-### `Draft`로 기본 파일 생성가능
+### `Draft`로 기본 파일 생성가능 (선택)
+
+* https://github.com/Azure/draft/#installation
 
 ```sh
 draft create
@@ -104,16 +107,25 @@ Please Enter the name of the application: petclinic-monolith█
 
 ## Azure DevOps 프로젝트 구성
 
+### Repo 생성
+
+* Azure DevOps > Repos > `git`리파지토리 생성
+* 파이프라인은 새로 구성해야하기 때문에 `azure-pipeline.yml`은 삭제
+* 이 프로젝트를 Clone하여 새로 생성된 repo에 연결
+
+  ```bash
+      rm -rf .git
+      git init
+      git add . 
+      git commit -am "first commit"
+      git remote add origin <Your repo> # ex: git@ssh.dev.azure.com:v3/org/pjt/petclininc
+      git push -u origin main
+  ```
+
 ### Azure DevOps에서 ssh 공개키 등록
 
 !["Git설정"](img/gitssh.png)
 > 단, http방식으로 연결할 경우 이 설정은 필요없음. 편의성을 위해 ssh사용 권고.
-
-* 파이프라인은 새로 구성해야하기 때문에 `azure-pipeline.yml`은 삭제
-
-```bash
-    rm -rf azure-pipeline.yml
-```
 
 ## Azure Pipeline 구성
 
