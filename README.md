@@ -346,8 +346,11 @@ Deploy와 Rollback을 별개의 Stage로 구성하고 Rollback은 필요시에�
 * Helm rollback
   * Command는 `rollback`, Argument는 `릴리즈명 0` 으로 입력. `0`은 바로 이전 Chart revision을 의미함.
 
-
 ### 카나리 배포 (선택)
+
+* 스테이지 환경 배포 전에 카나리 배포 환경이 추가된 CI/CD 파이프라인을 구성할 수 있음.
+
+![cicd](img/canary-cicd.png)
 
 * 동일한 App이름으로 Canary용 `Deployment`생성 (Chart내 template). 초기에는 `replicas`를 0으로 설정하여 배포되지 않게 함.
 
