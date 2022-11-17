@@ -400,7 +400,17 @@ git tag 0.0.1-RC1
 git push origin 0.0.1-RC1
 ```
 
-## CI/CD 뱃지 생성
+### 서비스 확인
+
+* `kubectl get svc`로 서비스 확인
+* External IP를 확인하여 웹브라우저에서 접속
+
+```sh
+NAME                         TYPE           CLUSTER-IP    EXTERNAL-IP      PORT(S)          AGE
+monolith-release-petclinic   LoadBalancer   10.0.117.69   20.196.249.127   8080:32458/TCP   40h
+```
+
+## CI/CD 뱃지 생성 (선택)
 
 * 뱃지를 통해 현재 리파지토리의 CI/CD, 정적점검, 테스트 커버리지 등을 확인할 수 있음.
 
