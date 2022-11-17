@@ -47,7 +47,7 @@ Please Enter the name of the application: petclinic-monolith█
 
 * 참고문서: <https://docs.microsoft.com/ko-kr/azure/devops-project/overview>
 
-## DevOps Starter에서 `create`로 신규 프로젝트를 생성
+## DevOps Starter에서 `create`로 신규 프로젝트를 생성 (선택)
 
 * 랭귀지 선택 전 아래 그림과 같이 나오는 `here`링크를 통해 `Azure DevOps`와 `GitHub Action`중 하나를 선택할 수 있음.
 
@@ -113,14 +113,17 @@ Please Enter the name of the application: petclinic-monolith█
 * 파이프라인은 새로 구성해야하기 때문에 `azure-pipeline.yml`은 삭제
 * 이 프로젝트를 Clone하여 새로 생성된 repo에 연결
 
-  ```bash
-      rm -rf .git
-      git init
-      git add . 
-      git commit -am "first commit"
-      git remote add origin <Your repo> # ex: git@ssh.dev.azure.com:v3/org/pjt/petclininc
-      git push -u origin main
-  ```
+  * https://learn.microsoft.com/ko-kr/azure/devops/repos/git/import-git-repository?view=azure-devops  참고
+  * 혹은 아래의 방식으로 연결
+
+    ```bash
+        rm -rf .git
+        git init
+        git add . 
+        git commit -am "first commit"
+        git remote add origin <Your repo> # ex: git@ssh.dev.azure.com:v3/org/pjt/petclininc
+        git push -u origin main
+    ```
 
 ### Azure DevOps에서 ssh 공개키 등록
 
@@ -346,8 +349,11 @@ Deploy와 Rollback을 별개의 Stage로 구성하고 Rollback은 필요시에�
 * Helm rollback
   * Command는 `rollback`, Argument는 `릴리즈명 0` 으로 입력. `0`은 바로 이전 Chart revision을 의미함.
 
-
 ### 카나리 배포 (선택)
+
+* 스테이지 환경 배포 전에 카나리 배포 환경이 추가된 CI/CD 파이프라인을 구성할 수 있음.
+
+![cicd](img/canary-cicd.png)
 
 * 동일한 App이름으로 Canary용 `Deployment`생성 (Chart내 template). 초기에는 `replicas`를 0으로 설정하여 배포되지 않게 함.
 
