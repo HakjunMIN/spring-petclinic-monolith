@@ -362,19 +362,19 @@ Deploy와 Rollback을 별개의 Stage로 구성하고 Rollback은 필요시에�
 * 카나리 `Deployment`의 이미지를 신규버전으로 설정
   
 ```sh
-kubectl set image deployment/monolith-release-sampleapp-canary monolith-release-sampleapp=spreg.azurecr.io/petclinic/spring-petclinic-monolith:0.0.5-SNAPSHOT
+kubectl set image deployment/monolith-release-petclinic-canary monolith-release-petclinic=spreg.azurecr.io/petclinic/spring-petclinic-monolith:0.0.5-SNAPSHOT
 ```
 
 * 카나리 리플리카를 1개 생성
 
 ```sh
-kubectl scale deployment/monolith-release-sampleapp-canary --replicas=1
+kubectl scale deployment/monolith-release-petclinic-canary --replicas=1
 ```
 
 * 성공하면 후속 스테이지인 `helm upgrade`수행, 실패하면 리플리카를 아래와 같이 0으로 설정하여 카나리 제거
 
 ```sh
-kubectl scale deployment/monolith-release-sampleapp-canary --replicas=0
+kubectl scale deployment/monolith-release-petclinic-canary --replicas=0
 ```
 
 * 위 순서대로 Azure Release의 Stage배포 앞단에 추가하여 Canary 배포를 수행할 수 있음.
