@@ -28,9 +28,6 @@ variables:
   MAVEN_OPTS: '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
-  sonar-url: 'http://20.214.221.108:9000'
-  sonar-token: 'sqp_ce8950fdd0fedd29a13f42115cb9e0aa44c03b10'
-
 
 stages:
 - stage: Build
@@ -42,6 +39,12 @@ stages:
       vmImage: $(vmImageName)
       
     steps:
+    - task: AzureKeyVault@1
+      inputs:
+        azureSubscription: 'SubscriptionConnection'              
+        KeyVaultName: 'kvspr'               
+        SecretsFilter: 'sonar-url, sonar-token'                    
+        RunAsPreJob: false       
     - task: Cache@2
       displayName: Cache Maven local repo  
       inputs:
@@ -67,7 +70,8 @@ stages:
         effectivePomSkip: false
         options: "-Dsonar.projectKey=petclinic-monolith -Dsonar.host.url=$(sonar-url) -Dsonar.login=$(sonar-token)"
         goals: "-B verify sonar:sonar"
-
+    
+        
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
