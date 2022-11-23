@@ -200,6 +200,24 @@ variables:
 
 ### (선택)CI 파이프라인 내 정적 점검 추가
 
+#### Azure KeyVault Task 추가
+
+* Azure KeyVault Task를 이용하여 CI에 필요한 Secret정보를 획득해야 함. (ex: SonarQube정보). 상세방법은 [여기](https://docs.microsoft.com/ko-kr/azure/devops/pipelines/release/key-vault-in-own-project?view=azure-devops&tabs=portal)서 참고
+* Azure DevOps - Pipelines - 파이프라인 이름 - `⁝`를 선택하여 Edit실행  
+* Build Stage - jobs - job - steps - task에 가장 앞부분에 커서 위치를 두고 `Show assistant`를 클릭하여 `Azure Key Vault`항목 추가
+* `Azure Subsciption`, `KeyVault` 항목을 입력하고 `Add`
+
+```yaml
+...
+    - task: AzureKeyVault@2
+      inputs:
+        azureSubscription: '<서비스 연결명>'
+        KeyVaultName: '<Your-keyvault>'
+        SecretsFilter: 'sonar-url, sonar-token'
+        RunAsPreJob: false
+
+```
+
 #### Cluster에 SonarQube 설치
 
 > 적절한 Kubernetes Cluster 연결 설정이 되어있어야 함. [여기](https://docs.microsoft.com/ko-kr/azure/aks/kubernetes-walkthrough#connect-to-the-cluster) 참고
