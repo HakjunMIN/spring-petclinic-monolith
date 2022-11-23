@@ -39,12 +39,6 @@ stages:
       vmImage: $(vmImageName)
       
     steps:
-    - task: AzureKeyVault@1
-      inputs:
-        azureSubscription: 'SubscriptionConnection'              
-        KeyVaultName: 'kvspr'               
-        SecretsFilter: 'sonar-url, sonar-token'                    
-        RunAsPreJob: false       
     - task: Cache@2
       displayName: Cache Maven local repo  
       inputs:
@@ -70,8 +64,7 @@ stages:
         effectivePomSkip: false
         options: "-Dsonar.projectKey=petclinic-monolith -Dsonar.host.url=$(sonar-url) -Dsonar.login=$(sonar-token)"
         goals: "-B verify sonar:sonar"
-    
-        
+
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
