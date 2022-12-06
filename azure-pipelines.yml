@@ -39,6 +39,12 @@ stages:
       vmImage: $(vmImageName)
       
     steps:
+    - task: AzureKeyVault@1
+      inputs:
+        azureSubscription: 'SubscriptionConnection'              
+        KeyVaultName: 'kvspr'               
+        SecretsFilter: 'sonar-url, sonar-token'                    
+        RunAsPreJob: false         
     - task: Cache@2
       displayName: Cache Maven local repo  
       inputs:
