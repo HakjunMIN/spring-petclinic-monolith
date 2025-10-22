@@ -34,7 +34,7 @@
      <dependency>
       <groupId>com.azure.spring</groupId>
       <artifactId>spring-cloud-azure-starter-monitor</artifactId>
-      <version>5.19.0</version>
+      <version>5.18.0</version>
     </dependency>
     <!-- Spring and Spring Boot dependencies -->
     <dependency>
