@@ -33,8 +33,13 @@
   <dependencies>
      <dependency>
       <groupId>com.azure.spring</groupId>
-      <artifactId>spring-cloud-azure-starter-monitor</artifactId>
+      <artifactId>spring-cloud-azure-starter-actuator</artifactId>
       <version>5.18.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.microsoft.azure</groupId>
+      <artifactId>applicationinsights-runtime-attach</artifactId>
+      <version>3.5.4</version>
     </dependency>
     <!-- Spring and Spring Boot dependencies -->
     <dependency>
