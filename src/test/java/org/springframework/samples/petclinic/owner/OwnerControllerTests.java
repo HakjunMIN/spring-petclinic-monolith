@@ -199,7 +199,7 @@ class OwnerControllerTests {
 					public boolean matches(Object item) {
 						@SuppressWarnings("unchecked")
 						List<Pet> pets = (List<Pet>) item;
-						Pet pet = pets.get(0);
+						Pet pet = pets.getFirst();
 						if (pet.getVisits().isEmpty()) {
 							return false;
 						}
