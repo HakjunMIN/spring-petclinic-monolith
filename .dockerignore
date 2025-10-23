@@ -1,0 +1,52 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# CI/CD
+.github
+.azure
+azure-pipelines.yml
+pr-pipeline.yml
+
+# IDE
+.vscode
+.idea
+*.iml
+*.ipr
+*.iws
+
+# Maven
+.mvn
+mvnw
+mvnw.cmd
+
+# Build artifacts (keep target for JAR)
+# target
+
+# Documentation
+README.md
+*.md
+img/
+
+# Charts and K8s
+charts/
+
+# Test reports
+*.log
+surefire-reports/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Source code (only need compiled JAR)
+src/main/java
+src/main/resources
+src/main/scss
+src/test
+src/checkstyle
+
+# Other
+sonar-project.properties
+LICENSE
